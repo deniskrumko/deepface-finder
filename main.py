@@ -1,6 +1,7 @@
-from deepface import DeepFace
-import pickle
 import os
+import pickle
+
+from deepface import DeepFace
 from PIL import Image
 from pillow_heif import register_heif_opener
 
@@ -31,23 +32,23 @@ def prepare_pkl():
     for root, dirs, files in os.walk(photos):
         for file in files:
             filepath = os.path.join(root, file)
-            pkl_path = os.path.join(pkl_photos_dir, file) + '.pkl'
+            pkl_path = os.path.join(pkl_photos_dir, file) + ".pkl"
 
-            if not file.lower().endswith(('.png', '.jpg', '.jpeg', '.heic')):
+            if not file.lower().endswith((".png", ".jpg", ".jpeg", ".heic")):
                 continue
 
             if os.path.exists(pkl_path):
-                print('x', end='', flush=True)
+                print("x", end="", flush=True)
                 continue  # Skip if .pkl file already exists
 
             faces = DeepFace.represent(os.path.join(root, file), enforce_detection=False)
-            if len(faces) == 1 and not faces[0]['face_confidence']:
-                print('E', end='', flush=True)
+            if len(faces) == 1 and not faces[0]["face_confidence"]:
+                print("E", end="", flush=True)
                 continue
 
-            with open(pkl_path, 'wb') as f:
+            with open(pkl_path, "wb") as f:
                 pickle.dump(faces, f)
-            print('.', end='', flush=True)
+            print(".", end="", flush=True)
 
 
 def find_similar_faces(target_face, representations):
@@ -61,13 +62,13 @@ def load_representations(pkl_photos_dir):
     representations = []
     for root, dirs, files in os.walk(pkl_photos_dir):
         for file in files:
-            if file.endswith('.pkl'):
+            if file.endswith(".pkl"):
                 pkl_path = os.path.join(root, file)
-                with open(pkl_path, 'rb') as f:
+                with open(pkl_path, "rb") as f:
                     try:
                         faces = pickle.load(f)
                         for face in faces:
-                            face['filename'] = file
+                            face["filename"] = file
                         representations.extend(faces)
                     except Exception as e:
                         print(f"Error loading {pkl_path}: {e}")
@@ -86,11 +87,11 @@ def main():
     representations = load_representations(pkl_photos_dir)
 
     for similar in find_similar_faces(target_face, representations)[0]:
-        similar_filename = similar['filename'].replace('.pkl', '')
+        similar_filename = similar["filename"].replace(".pkl", "")
         similar_path = os.path.join(photos, similar_filename)
-        face_confidence = similar['face_confidence']
+        face_confidence = similar["face_confidence"]
         print(f"Found similar face in: {similar_path}: {face_confidence}")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

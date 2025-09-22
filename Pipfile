@@ -1,0 +1,38 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[requires]
+python_version = "3.12"
+
+[packages]
+# Fastapi related
+fastapi = "*"
+pydantic = "*"
+uvicorn = "*"
+jinja2 = "*"
+dynaconf = "*"
+# Deepface related
+deepface = "*"
+tf-keras = "*"
+Pillow = "*"
+pillow-heif = "*"
+
+[dev-packages]
+ipdb = "*"
+black = "*"
+mypy = "*"
+isort = "*"
+flake8 = "*"
+flake8-pyproject = "*"
+flake8-commas = "*"
+flake8-isort = "*"
+flake8-bugbear = "*"
+flake8-simplify = "*"
+flake8-print = "*"
+flake8-debugger = "*"
+flake8-hangover = "*"
+pytest = "*"
+pytest-cov = "*"
+pytest-asyncio = "*"
