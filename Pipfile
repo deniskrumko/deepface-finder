@@ -13,11 +13,14 @@ pydantic = "*"
 uvicorn = "*"
 jinja2 = "*"
 dynaconf = "*"
+boto3 = "*"
+botocore = "*"
 # Deepface related
 deepface = "*"
 tf-keras = "*"
 Pillow = "*"
 pillow-heif = "*"
+fastparquet = "*"
 
 [dev-packages]
 ipdb = "*"
