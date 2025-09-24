@@ -21,6 +21,7 @@ tf-keras = "*"
 Pillow = "*"
 pillow-heif = "*"
 fastparquet = "*"
+ultralytics = "*"
 
 [dev-packages]
 ipdb = "*"

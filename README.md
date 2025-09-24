@@ -3,10 +3,8 @@ Face finder web app powered by DeepFace
 
 pip install deepface
 pip install tf-keras
-pip install gdown
 pip install Pillow pillow-heif
 pip install ultralytics
-pip install dlib
 
 идея
 - скачать фотки

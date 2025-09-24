@@ -1,31 +1,34 @@
 """
-PYTHONPATH=src py src/scripts/find_face.py exports/target.HEIC
+PYTHONPATH=src py src/scripts/find_face.py
 """
 
 from pathlib import Path
 
-from app.image_processing import (
+from app.image_processing.face_detection import (
     find_similar_faces,
     get_faces,
-    read_embeddings_file,
 )
+from app.image_processing.face_embeddings import read_embeddings_file
 
 if __name__ == "__main__":
     targets = [
-        # "exports/target.HEIC",
-        # "exports/target.jpg",
-        # "exports/target.png",
-        # "exports/target2.JPG",
-        # "exports/target2.HEIC",
-        "exports/lana.jpg",
-        # "exports/lana2.jpg",
+        "exports/targets/denis1.HEIC",
+        "exports/targets/denis2.HEIC",
+        "exports/targets/denis3.JPG",
+        # "exports/targets/dima.jpg",
+        # "exports/targets/dima2.jpg",
+        # "exports/targets/ilik.jpg",
+        # "exports/targets/ilik2.HEIC",
+        # "exports/targets/lana.jpg",
+        # "exports/targets/lana2.jpg",
+        # "exports/targets/lana3.png",
+        # "exports/targets/serega.jpg",
+        # "exports/targets/yana.jpg",
     ]
 
     embeddings = []
     for emb_file in Path("exports/samples_embeddings").glob("*.parq"):
         emb = read_embeddings_file(emb_file)
-        if "5707" in emb_file.name:
-            breakpoint()  # FIXME: Breakpoint
         embeddings.extend(emb)
 
     total_faces = []
@@ -37,4 +40,4 @@ if __name__ == "__main__":
             total_faces.extend(faces)
 
     for sf in find_similar_faces(total_faces, embeddings):
-        print(f"exports/samples/{sf}")
+        print(f"exports/samples/{sf.filename} - distance {sf.distance:.4f}")

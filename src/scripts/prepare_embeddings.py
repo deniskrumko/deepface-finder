@@ -8,10 +8,8 @@ PYTHONPATH=src py src/scripts/prepare_embeddings.py exports/samples exports/samp
 
 from pathlib import Path
 
-from app.image_processing import (
-    batch_processing,
-    create_embeddings_file,
-)
+from app.image_processing.batch import batch_processing
+from app.image_processing.face_embeddings import create_embeddings_file
 
 if __name__ == "__main__":
     import argparse

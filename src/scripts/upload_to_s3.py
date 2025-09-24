@@ -3,9 +3,9 @@ PYTHONPATH=src py src/scripts/upload_to_s3.py
 """
 
 from app.core.settings import get_settings
-from app.image_processing import (
-    DEFAULT_EMBEDDING_EXT,
-    batch_processing,
+from app.image_processing.batch import batch_processing
+from app.image_processing.face_embeddings import DEFAULT_EMBEDDING_EXT
+from app.image_processing.storages import (
     get_s3_client,
     upload_file_to_s3,
 )

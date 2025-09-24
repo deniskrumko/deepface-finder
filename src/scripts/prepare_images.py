@@ -8,10 +8,8 @@ PYTHONPATH=src py src/scripts/prepare_images.py exports/samples exports/samples_
 
 from pathlib import Path
 
-from app.image_processing import (
-    batch_processing,
-    resize_image,
-)
+from app.image_processing.batch import batch_processing
+from app.image_processing.utils import resize_image
 
 if __name__ == "__main__":
     import argparse

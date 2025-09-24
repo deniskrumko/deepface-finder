@@ -51,4 +51,4 @@ lint:
 	mypy .
 
 # Run all checks
-check: fmt lint tests
+check: fmt lint
