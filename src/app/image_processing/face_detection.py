@@ -9,7 +9,10 @@ from .resources import (
     FaceEmbedding,
     SimilarFace,
 )
-from .utils import get_image_content
+from .utils import (
+    get_image_content,
+    get_image_content_from_bytes,
+)
 
 
 def get_faces(
@@ -18,6 +21,26 @@ def get_faces(
     min_face_size: int = 100,
 ) -> list[Face]:
     image_bytes = get_image_content(image_path)
+    target_faces = DeepFace.extract_faces(
+        image_bytes,
+        enforce_detection=False,
+        detector_backend=detector_backend,
+    )
+    return [
+        Face(**f)
+        for f in target_faces
+        if f["confidence"]
+        and f["facial_area"]["w"] > min_face_size
+        and f["facial_area"]["h"] > min_face_size
+    ]  # type:ignore
+
+
+def get_faces_from_bytes(
+    file_content: bytes,
+    detector_backend: str = DEFAULT_DETECTOR_BACKEND,
+    min_face_size: int = 100,
+) -> list[Face]:
+    image_bytes = get_image_content_from_bytes(file_content)
     target_faces = DeepFace.extract_faces(
         image_bytes,
         enforce_detection=False,

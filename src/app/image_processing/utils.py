@@ -1,3 +1,4 @@
+from io import BytesIO
 from pathlib import Path
 
 import cv2
@@ -24,6 +25,21 @@ def get_image_content(image_path: str | Path) -> np.ndarray:
 
     # Use OpenCV to read directly as BGR
     return cv2.imread(str(image_path))  # type:ignore
+
+
+def get_image_content_from_bytes(file_content: bytes) -> np.ndarray:
+    """Get image content as numpy array in BGR format from file descriptor."""
+    # Convert to numpy array for cv2.imdecode
+    nparr = np.frombuffer(file_content, np.uint8)
+
+    with Image.open(BytesIO(file_content)) as img:
+        if img.format in ("HEIC", "HEIF"):
+            rgb_img = img.convert("RGB")
+            rgb_array = np.array(rgb_img)
+            bgr_array = cv2.cvtColor(rgb_array, cv2.COLOR_RGB2BGR)
+            return bgr_array
+
+    return cv2.imdecode(nparr, cv2.IMREAD_COLOR)  # type:ignore
 
 
 def resize_image(

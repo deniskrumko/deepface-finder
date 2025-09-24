@@ -17,6 +17,7 @@ down:
 run:
 	PYTHONBREAKPOINT=ipdb.set_trace \
 	PYTHONPATH=src \
+	APP_CONFIG=config/test.toml \
 	python3 -m uvicorn app.main:app --host 0.0.0.0 --port 8080
 
 # Install all dependencies

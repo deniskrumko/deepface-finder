@@ -21,6 +21,7 @@ class LowercaseKeyMixin:
 
 
 class SourceBucket(LowercaseKeyMixin, BaseModel):
+    type: str = "s3"
     region: str
     endpoint: str
     key: str
@@ -28,29 +29,45 @@ class SourceBucket(LowercaseKeyMixin, BaseModel):
     bucket: str
 
 
+class SourceLocalFolder(LowercaseKeyMixin, BaseModel):
+    type: str = "filesystem"
+    path: str
+
+
 class Project(LowercaseKeyMixin, BaseModel):
     name: str
     source: str
+    proxy: str
     original_images: str
     resized_images: str
     embeddings: str
 
 
+class Proxy(LowercaseKeyMixin, BaseModel):
+    url: str
+
+
 class Settings(BaseModel):
     """App settings."""
 
-    sources: dict[str, SourceBucket]
+    sources: dict[str, SourceBucket | SourceLocalFolder]
+    proxies: dict[str, Proxy]
     projects: dict[str, Project]
 
     @classmethod
     def from_config(cls, config: Mapping) -> "Settings":
+        # sources: dict[str, SourceBucket | SourceLocalFolder] = {}
+
+        # for name, params in config.get("sources", {}).items():
+        #     if params.get("type") == "filesystem":
+        #         sources[name] = SourceLocalFolder(**params)  # type:ignore
+        #     else:
+        #         sources[name] = SourceBucket(**params)  # type:ignore
+
         settings = cls(
-            sources={
-                name: SourceBucket(**params) for name, params in config.get("sources", {}).items()
-            },
-            projects={
-                name: Project(**params) for name, params in config.get("projects", {}).items()
-            },
+            sources=config["sources"],
+            proxies=config["proxies"],
+            projects=config["projects"],
         )
 
         return settings
