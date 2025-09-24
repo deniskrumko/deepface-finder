@@ -51,4 +51,7 @@ lint:
 	mypy .
 
 # Run all checks
-check: fmt lint
+check: fmt lint gitleaks
+
+gitleaks:
+	gitleaks git -v
