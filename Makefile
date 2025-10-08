@@ -1,4 +1,6 @@
 IMAGE=deepface-finder:local
+# MY_IP=0.0.0.0
+MY_IP=192.168.1.139
 
 # DOCKER COMPOSE
 # ==============
@@ -14,11 +16,14 @@ down:
 # LOCAL DEVELOPMENT
 # =================
 
+my_ip:
+	ipconfig getifaddr en0
+
 run:
 	PYTHONBREAKPOINT=ipdb.set_trace \
 	PYTHONPATH=src \
 	APP_CONFIG=config/test.toml \
-	python3 -m uvicorn app.main:app --host 0.0.0.0 --port 8080
+	python3 -m uvicorn app.main:app --host ${MY_IP} --port 8080
 
 # Install all dependencies
 deps: pipenv
@@ -56,3 +61,14 @@ check: fmt lint gitleaks
 
 gitleaks:
 	gitleaks git -v
+
+# Collect i18n translation stirngs
+collect_translations:
+	./scripts/collect_translations.sh
+
+# Compile i18n translations
+compile_translations:
+	./scripts/compile_translations.sh
+
+find_missing_translations:
+	./scripts/find_missing_translations.sh

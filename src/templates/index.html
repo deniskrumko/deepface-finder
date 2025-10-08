@@ -5,34 +5,160 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <meta name="description" content="DeepFace Finder - Upload and process images" />
+    <link rel="stylesheet" href="/static/css/branding.css">
     <link rel="stylesheet" href="/static/css/base.css">
-    <title>DeepFace Finder</title>
+    <link rel="stylesheet" href="/static/css/notifications.css">
+    <title>{% if branding_title %}{{branding_title}}{% else %}DeepFace Finder{% endif %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;600;700" rel="stylesheet">
   </head>
   <body>
+    <div class="branding">
+      <div class="branding-image">
+        {% if branding_image %}
+        <img src="{{ branding_image }}" alt="logo">
+        {% else %}
+        <img src="/static/images/branding1280_720.png" alt="logo">
+        {% endif %}
+      </div>
+      <div class="branding-text">
+        {% if branding_text %}
+          {{ branding_text | safe }}
+        {% else %}
+        <p>{% trans %}Search through millions of images to find photos of you using <span class="highlight">AI-powered facial recognition</span>{% endtrans %}</p>
+        <p>{% trans %}Perfect for event photographers, social media enthusiasts, and anyone looking to find their photos quickly and easily{% endtrans %}</p>
+        {% endif %}
+      </div>
+    </div>
     <div class="container">
-      <h1>DeepFace Finder</h1>
 
       <div class="upload-section" id="uploadSection">
-        <p style="margin-bottom: 15px; color: #666;">Drop files here or click to select</p>
-        <input type="file" id="fileInput" accept="image/*" multiple>
-        <button class="add-btn" id="addBtn">Add Files</button>
-        <div class="file-counter">
-          <span id="fileCount">0</span> / 5 files selected
+        <div class="upload-left">
+          <div class="upload-drop-area full-height">
+            <p style="margin-bottom: 15px; color: #666;">
+              {% trans %}Drag and drop files here or click to select{% endtrans %}
+            </p>
+            <input type="file" id="fileInput" accept="image/*" multiple>
+            <button class="add-btn" id="addBtn">
+              {% trans %}Add files{% endtrans %}
+            </button>
+            <div class="file-counter">
+              <span id="fileCount">0</span> / {% trans %}5 files{% endtrans %}
+            </div>
+          </div>
+
+          <div class="file-list hidden" id="fileList"></div>
+        </div>
+
+        <div class="upload-right">
+          <div class="info-blocks" id="infoBlocks">
+            <div class="info-block">
+              <img src="/static/images/camera.svg" alt="" class="info-icon">
+              <p class="info-text">
+                {% trans %}Upload up to 5 files to increase search accuracy{% endtrans %}
+              </p>
+            </div>
+
+            <div class="info-block">
+              <img src="/static/images/face.svg" alt="" class="info-icon">
+              <p class="info-text">
+                {% trans %}Each photo should contain only one face{% endtrans %}
+              </p>
+            </div>
+
+            <div class="info-block">
+              <img src="/static/images/save_off.svg" alt="" class="info-icon">
+              <p class="info-text">
+                {% trans %}Uploaded photos won't be shared or saved anywhere{% endtrans %}
+              </p>
+            </div>
+
+            <div class="info-block">
+              <img src="/static/images/rules.svg" alt="" class="info-icon">
+              <p class="info-text">
+                {% trans %}ML model can make mistakes, but who doesn't?{% endtrans %}
+              </p>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div id="errorMessage" class="error-message"></div>
-      <div id="successMessage" class="success-message"></div>
+      <div class="upload-btn-section">
+          <button class="upload-btn hidden" id="uploadBtn" disabled>
+            {% trans %}Upload files{% endtrans %}
+          </button>
+      </div>
 
-      <div class="file-list" id="fileList"></div>
-
-      <button class="upload-btn" id="uploadBtn" disabled>Upload Files</button>
+      <div class="results-section" id="resultsSection" style="display: none;">
+        <h2>{% trans %}Results{% endtrans %}</h2>
+        <div class="image-grid" id="imageGrid"></div>
+        <a class="github-star" href="https://github.com/deniskrumko/deepface-finder" target="_blank">
+          <img src="/static/images/github.svg" alt="">
+          {% trans %}Star this project on Github or suggest any improvements!{% endtrans %}
+        </a>
+      </div>
     </div>
 
+    <div class="footer">
+      <p>
+        <a href="https://github.com/deniskrumko/deepface-finder" target="_blank">
+          deniskrumko/deepface-finder &copy; 2025
+        </a>
+      </p>
+    </div>
+
+    <!-- Modal for image preview -->
+    <div id="imageModal" class="modal">
+      <span class="close">
+        <img src="/static/images/close.svg" alt="">
+      </span>
+      <div class="modal-content-wrapper">
+        <div class="modal-nav prev">
+          <img src="/static/images/arrow-left.svg" alt="">
+        </div>
+        <div class="modal-content">
+          <img id="modalImage" src="" alt="Preview">
+          <div class="modal-info">
+            <div class="modal-similarity" id="modalSimilarity"></div>
+            <a id="modalDownload" class="modal-download-btn" download>
+              <img src="/static/images/download.svg" alt="Download">
+            </a>
+          </div>
+        </div>
+        <div class="modal-nav next">
+          <img src="/static/images/arrow-right.svg" alt="">
+        </div>
+      </div>
+    </div>
+
+    <script src="/static/js/notifications.js"></script>
     <script src="/static/js/base.js"></script>
     <script>
       // Initialize the uploader when the page loads
       const uploader = new FileUploader();
+
+      function getText(key, ...params) {
+        const translations = {
+          "only_images_allowed": "{% trans %}Only image files are allowed{% endtrans %}",
+          "max_files": "{% trans %}Can only add {0} more files (maximum {1} files){% endtrans %}",
+          "loading": "{% trans %}Loading...{% endtrans %}",
+          "no_match": "{% trans %}No matching images were found<br>Try uploading different photos{% endtrans %}",
+          "upload_error": "{% trans %}An error occurred during upload{% endtrans %}",
+          "upload_btn": "{% trans %}Upload files{% endtrans %}",
+          "found_similar": "{% trans %}Found similar photos:{% endtrans %}",
+        };
+
+        let text = translations[key] || key;
+
+        // Replace placeholders {0}, {1}, etc. with provided parameters
+        params.forEach((param, index) => {
+          text = text.replace(`{${index}}`, param);
+        });
+
+        return text;
+      }
+
     </script>
   </body>
 </html>

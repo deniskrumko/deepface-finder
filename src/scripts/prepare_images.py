@@ -24,9 +24,9 @@ if __name__ == "__main__":
     dst_dir.mkdir(parents=True, exist_ok=True)
 
     batch_processing(
-        resize_image,
-        src_dir,
-        dst_dir,
+        processing_func=resize_image,
+        src_dir=src_dir,
+        dst_dir=dst_dir,
         display_progress=True,
         raise_errors=False,
     )

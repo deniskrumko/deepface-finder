@@ -1,76 +1,49 @@
 from os import getenv
 from pathlib import Path
-from typing import (
-    Any,
-    Mapping,
-)
+from typing import Mapping
 
-import pydantic
 from dynaconf import Dynaconf
 from pydantic import BaseModel
+
+from app.image_processing.resources import (
+    DeepfaceSettings,
+    ImagesSettings,
+)
+from app.storages.resources import (
+    ProxySettings,
+    S3Settings,
+)
+
+from .utils import LowercaseKeyMixin
 
 ENV_VAR_PREFIX = "DFF"
 
 
-class LowercaseKeyMixin:
-    """Mixin to normalize keys to lowercase before validation."""
-
-    @pydantic.model_validator(mode="before")
-    def normalize_keys(cls, data: dict[str, Any]) -> dict[str, Any]:
-        return {k.lower(): v for k, v in data.items()}
-
-
-class SourceBucket(LowercaseKeyMixin, BaseModel):
-    type: str = "s3"
-    region: str
-    endpoint: str
-    key: str
-    secret: str
-    bucket: str
-
-
-class SourceLocalFolder(LowercaseKeyMixin, BaseModel):
-    type: str = "filesystem"
-    path: str
-
-
-class Project(LowercaseKeyMixin, BaseModel):
-    name: str
-    source: str
-    proxy: str
-    original_images: str
-    resized_images: str
-    embeddings: str
-
-
-class Proxy(LowercaseKeyMixin, BaseModel):
-    url: str
+class UISettings(LowercaseKeyMixin, BaseModel):
+    language: str = "en"
+    branding_title: str | None = None
+    branding_image: str | None = None
+    branding_text: str | None = None
 
 
 class Settings(BaseModel):
     """App settings."""
 
-    sources: dict[str, SourceBucket | SourceLocalFolder]
-    proxies: dict[str, Proxy]
-    projects: dict[str, Project]
+    ui: UISettings
+    s3: S3Settings
+    proxy: ProxySettings
+    images: ImagesSettings
+    deepface: DeepfaceSettings
 
     @classmethod
     def from_config(cls, config: Mapping) -> "Settings":
-        # sources: dict[str, SourceBucket | SourceLocalFolder] = {}
-
-        # for name, params in config.get("sources", {}).items():
-        #     if params.get("type") == "filesystem":
-        #         sources[name] = SourceLocalFolder(**params)  # type:ignore
-        #     else:
-        #         sources[name] = SourceBucket(**params)  # type:ignore
-
-        settings = cls(
-            sources=config["sources"],
-            proxies=config["proxies"],
-            projects=config["projects"],
+        return cls(
+            ui=config.get("ui", {}),
+            s3=config["s3"],
+            proxy=config["proxy"],
+            images=config["images"],
+            deepface=config.get("deepface", {}),
         )
-
-        return settings
 
 
 SETTINGS: Settings | None = None

@@ -1,0 +1,147 @@
+# English translations for PROJECT.
+# Copyright (C) 2025 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2025-10-08 16:24+0500\n"
+"PO-Revision-Date: 2025-10-05 09:45+0500\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: src/app/views/index.py:45
+#, python-brace-format
+msgid "Maximum {} files allowed"
+msgstr ""
+
+#: src/app/views/index.py:48
+msgid "At least one file is required"
+msgstr ""
+
+#: src/app/views/index.py:60
+#, python-brace-format
+msgid "Error during processing uploaded files: {}"
+msgstr ""
+
+#: src/app/views/index.py:70
+#, python-brace-format
+msgid "Error during finding similar photos: {}"
+msgstr ""
+
+#: src/app/views/index.py:102
+#, python-brace-format
+msgid "File {} is not a supported image format"
+msgstr ""
+
+#: src/app/views/index.py:107
+#, python-brace-format
+msgid "File {} is too large (max 10MB)"
+msgstr ""
+
+#: src/app/views/index.py:111
+#, python-brace-format
+msgid "No faces detected in file {}"
+msgstr ""
+
+#: src/app/views/index.py:116
+#, python-brace-format
+msgid ""
+"Multiple faces detected in file {}. Please upload images with a single "
+"face."
+msgstr ""
+
+#: src/templates/index.html:29
+msgid ""
+"Search through millions of images to find photos of you using <span "
+"class=\"highlight\">AI-powered facial recognition</span>"
+msgstr ""
+
+#: src/templates/index.html:30
+msgid ""
+"Perfect for event photographers, social media enthusiasts, and anyone "
+"looking to find their photos quickly and easily"
+msgstr ""
+
+#: src/templates/index.html:40
+msgid "Drag and drop files here or click to select"
+msgstr ""
+
+#: src/templates/index.html:44
+msgid "Add files"
+msgstr ""
+
+#: src/templates/index.html:47
+msgid "5 files"
+msgstr ""
+
+#: src/templates/index.html:59
+msgid "Upload up to 5 files to increase search accuracy"
+msgstr ""
+
+#: src/templates/index.html:66
+msgid "Each photo should contain only one face"
+msgstr ""
+
+#: src/templates/index.html:73
+msgid "Uploaded photos won't be shared or saved anywhere"
+msgstr ""
+
+#: src/templates/index.html:80
+msgid "ML model can make mistakes, but who doesn't?"
+msgstr ""
+
+#: src/templates/index.html:89 src/templates/index.html:148
+msgid "Upload files"
+msgstr ""
+
+#: src/templates/index.html:94
+msgid "Results"
+msgstr ""
+
+#: src/templates/index.html:98
+msgid "Star this project on Github or suggest any improvements!"
+msgstr ""
+
+#: src/templates/index.html:143
+msgid "Only image files are allowed"
+msgstr ""
+
+#: src/templates/index.html:144
+#, python-brace-format
+msgid "Can only add {0} more files (maximum {1} files)"
+msgstr ""
+
+#: src/templates/index.html:145
+msgid "Loading..."
+msgstr ""
+
+#: src/templates/index.html:146
+msgid "No matching images were found<br>Try uploading different photos"
+msgstr ""
+
+#: src/templates/index.html:147
+msgid "An error occurred during upload"
+msgstr ""
+
+#: src/templates/index.html:149
+msgid "Found similar photos:"
+msgstr ""
+
+#~ msgid ""
+#~ "Your photos are not saved anywhere, "
+#~ "<a href=\"https://github.com/deniskrumko/deepface-finder\""
+#~ " target=\"_blank\">check for yourself</a>"
+#~ msgstr ""
+
+#~ msgid "File { is too large (max 10MB)"
+#~ msgstr ""
+

@@ -5,17 +5,15 @@ import pandas as pd
 from deepface import DeepFace
 
 from .resources import (
-    DEFAULT_DETECTOR_BACKEND,
     DEFAULT_EMBEDDING_EXT,
-    DEFAULT_MODEL_NAME,
     FaceEmbedding,
 )
 
 
 def get_embeddings(
     image_path: str | Path,
-    model_name: str = DEFAULT_MODEL_NAME,
-    detector_backend: str = DEFAULT_DETECTOR_BACKEND,
+    model_name: str,
+    detector_backend: str,
     min_face_size: int = 20,
 ) -> list[FaceEmbedding]:
     """Get list of embeddings from image file."""

@@ -1,6 +1,8 @@
 from contextlib import suppress
 from typing import Any
 
+import pydantic
+
 VERSION_UNDEFINED = "undefined"
 
 
@@ -26,3 +28,11 @@ def flatten_dict(data: dict, parent_key: str = "", sep: str = ".") -> dict:
         else:
             items[new_key] = v
     return items
+
+
+class LowercaseKeyMixin:
+    """Mixin to normalize keys to lowercase before validation."""
+
+    @pydantic.model_validator(mode="before")
+    def normalize_keys(cls, data: dict[str, Any]) -> dict[str, Any]:
+        return {k.lower(): v for k, v in data.items()}

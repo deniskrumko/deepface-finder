@@ -1,22 +1,33 @@
-from typing import List
+import logging
+from typing import Any
 
 from fastapi import (
     APIRouter,
     File,
-    HTTPException,
     Request,
     UploadFile,
 )
 from fastapi.responses import JSONResponse
 from starlette.responses import Response
 
+from app.core.fastapi import error_response
+from app.core.i18n import _
+from app.core.settings import Settings
 from app.core.templates import render_template
 from app.image_processing.face_detection import (
     find_similar_faces,
-    get_faces_from_bytes,
+    get_faces,
 )
+from app.image_processing.resources import (
+    IMAGE_MIMETYPES,
+    Face,
+)
+from app.storages import S3Proxy
 
 router = APIRouter()
+logger = logging.getLogger(__name__)
+
+MAX_FILES: int = 5
 
 
 @router.get("/")
@@ -26,74 +37,90 @@ async def index_view(request: Request) -> Response:
 
 @router.post("/")
 async def upload_files(
-    files: List[UploadFile] = File(default=...),  # noqa
+    files: list[UploadFile] = File(default=...),  # noqa
     request: Request = None,  # type:ignore
 ) -> JSONResponse:
-    """
-    Handle file uploads from the index page.
-    Accepts up to 5 image files for processing.
-    """
     # Validate number of files
-    if len(files) > 5:
-        raise HTTPException(
-            status_code=400,
-            detail="Maximum 5 files allowed",
-        )
+    if len(files) > MAX_FILES:
+        return error_response(_("Maximum {} files allowed").format(MAX_FILES))
 
     if len(files) == 0:
-        raise HTTPException(
-            status_code=400,
-            detail="At least one file is required",
-        )
+        return error_response(_("At least one file is required"))
 
-    # Validate file types
-    allowed_types = {"image/jpeg", "image/jpg", "image/png", "image/gif", "image/bmp", "image/heic"}
-    uploaded_files = []
-    total_faces = []
+    settings: Settings = request.app.settings  # type:ignore
+
+    try:
+        user_faces = await extract_faces_from_files(
+            files=files,
+            detector_backend=settings.deepface.detector_backend,
+            min_face_size=settings.deepface.min_detector_face_size,
+        )
+    except Exception as e:
+        logger.exception(f"Error during processing uploaded files: {e!r}")
+        return error_response(_("Error during processing uploaded files: {}").format(e))
+
+    try:
+        similar_faces = find_similar_faces(
+            faces=user_faces,
+            embeddings=request.app.embeddings,
+            model_name=settings.deepface.model_name,
+        )
+    except Exception as e:
+        logger.exception(f"Error during finding similar photos: {e!r}")
+        return error_response(_("Error during finding similar photos: {}").format(e))
+
+    logger.info(f"Found {len(similar_faces)} similar faces for {len(user_faces)} uploaded faces")
+
+    s3_proxy: S3Proxy = request.app.s3_proxy  # type:ignore
+    result_files = [
+        {
+            "filename": sf.filename,
+            "distance": sf.distance,
+            "resized": s3_proxy.get_proxy_path(sf.filename, prefix=settings.images.resized),
+            "original": s3_proxy.get_proxy_path(sf.filename, prefix=settings.images.original),
+        }
+        for sf in similar_faces
+    ]
+
+    return JSONResponse(
+        content={
+            "success": True,
+            "files": result_files,
+        },
+        status_code=200,
+    )
+
+
+async def extract_faces_from_files(files: list[UploadFile], **kwargs: Any) -> list[Face]:
+    user_faces: list[Face] = []
+
     for file in files:
+        filename = file.filename
+
         # Check file type
-        if file.content_type not in allowed_types:
-            raise HTTPException(
-                status_code=400,
-                detail=f"File {file.filename} is not a supported image format",
-            )
+        if file.content_type not in IMAGE_MIMETYPES:
+            raise ValueError(_("File {} is not a supported image format").format(filename))
 
         # Check file size (10MB limit per file)
         content = await file.read()
         if len(content) > 10 * 1024 * 1024:  # 10MB
-            raise HTTPException(
-                status_code=400,
-                detail=f"File {file.filename} is too large (max 10MB)",
-            )
+            raise ValueError(_("File {} is too large (max 10MB)").format(filename))
 
-        faces = get_faces_from_bytes(content)
+        faces = get_faces(content, **kwargs)
         if not faces:
-            raise HTTPException(
-                status_code=400,
-                detail=f"No faces detected in file {file.filename}",
+            raise ValueError(_("No faces detected in file {}").format(filename))
+
+        if len(faces) > 1:
+            raise ValueError(
+                _(
+                    "Multiple faces detected in file {}. "
+                    "Please upload images with a single face.",
+                ).format(filename),
             )
 
-        total_faces.extend(faces)
+        user_faces.extend(faces)
 
         # Reset file position for potential future reads
         await file.seek(0)
 
-    project_data = request.app.projects_data["kolesa_birthday_2025"]
-
-    for sf in find_similar_faces(total_faces, project_data.embeddings):
-        print(f"exports/samples/{sf.filename} - distance {sf.distance:.4f}")  # noqa
-
-    return JSONResponse(
-        content={
-            "message": f"Successfully uploaded {len(uploaded_files)} files",
-            "files": [
-                {
-                    "filename": f["filename"],
-                    "content_type": f["content_type"],
-                    "size": f["size"],
-                }
-                for f in uploaded_files
-            ],
-        },
-        status_code=200,
-    )
+    return user_faces

@@ -1,0 +1,144 @@
+# Russian translations for PROJECT.
+# Copyright (C) 2025 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2025-10-08 16:24+0500\n"
+"PO-Revision-Date: 2025-10-05 09:45+0500\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: ru\n"
+"Language-Team: ru <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: src/app/views/index.py:45
+#, python-brace-format
+msgid "Maximum {} files allowed"
+msgstr "Можно загрузить до {} файлов"
+
+#: src/app/views/index.py:48
+msgid "At least one file is required"
+msgstr "Загрузите хотя бы один файл"
+
+#: src/app/views/index.py:60
+#, python-brace-format
+msgid "Error during processing uploaded files: {}"
+msgstr "Ошибка при обработке загруженных фото: {}"
+
+#: src/app/views/index.py:70
+#, python-brace-format
+msgid "Error during finding similar photos: {}"
+msgstr "Ошибка при поиске похожих фото: {}"
+
+#: src/app/views/index.py:102
+#, python-brace-format
+msgid "File {} is not a supported image format"
+msgstr "Формат файла {} не поддерживается"
+
+#: src/app/views/index.py:107
+#, python-brace-format
+msgid "File {} is too large (max 10MB)"
+msgstr "Файл {} слишком большой (максимум 10 МБ)"
+
+#: src/app/views/index.py:111
+#, python-brace-format
+msgid "No faces detected in file {}"
+msgstr "Не найдено лиц в файле {}"
+
+#: src/app/views/index.py:116
+#, python-brace-format
+msgid ""
+"Multiple faces detected in file {}. Please upload images with a single "
+"face."
+msgstr ""
+"Найдено несколько лиц в файле {}. Пожалуйста, загрузите фото только с "
+"одним лицом"
+
+#: src/templates/index.html:29
+msgid ""
+"Search through millions of images to find photos of you using <span "
+"class=\"highlight\">AI-powered facial recognition</span>"
+msgstr ""
+"Найди себя среди миллионов фотографий при помощи <span "
+"class=\"highlight\">AI распознавания лиц</span>"
+
+#: src/templates/index.html:30
+msgid ""
+"Perfect for event photographers, social media enthusiasts, and anyone "
+"looking to find their photos quickly and easily"
+msgstr ""
+"Идеально подходит для профессиональных ивент фотографов, и просто всех "
+"кто хочет искать свои фото быстро и просто"
+
+#: src/templates/index.html:40
+msgid "Drag and drop files here or click to select"
+msgstr "Перетащи файлы сюда или нажми, чтобы выбрать"
+
+#: src/templates/index.html:44
+msgid "Add files"
+msgstr "Добавить файлы"
+
+#: src/templates/index.html:47
+msgid "5 files"
+msgstr "5 файлов"
+
+#: src/templates/index.html:59
+msgid "Upload up to 5 files to increase search accuracy"
+msgstr "Загрузи до 5 файлов, чтобы увеличить точность поиска"
+
+#: src/templates/index.html:66
+msgid "Each photo should contain only one face"
+msgstr "На каждом фото должно быть только твоё лицо"
+
+#: src/templates/index.html:73
+msgid "Uploaded photos won't be shared or saved anywhere"
+msgstr "Загруженные фото не публикуются и нигде не сохраняются"
+
+#: src/templates/index.html:80
+msgid "ML model can make mistakes, but who doesn't?"
+msgstr "ML модель может ошибаться при поиске, но кто не ошибается?"
+
+#: src/templates/index.html:89 src/templates/index.html:148
+msgid "Upload files"
+msgstr "Загрузить файлы"
+
+#: src/templates/index.html:94
+msgid "Results"
+msgstr "Результаты"
+
+#: src/templates/index.html:98
+msgid "Star this project on Github or suggest any improvements!"
+msgstr "Оцени этот проект на Github или предложи любые улучшения!"
+
+#: src/templates/index.html:143
+msgid "Only image files are allowed"
+msgstr "Разрешены только файлы с изображениями"
+
+#: src/templates/index.html:144
+#, python-brace-format
+msgid "Can only add {0} more files (maximum {1} files)"
+msgstr "Еще можно добавить только {0} файл(а) (всего {1} файлов)"
+
+#: src/templates/index.html:145
+msgid "Loading..."
+msgstr "Загрузка..."
+
+#: src/templates/index.html:146
+msgid "No matching images were found<br>Try uploading different photos"
+msgstr "Не удалось найти похожие фото<br>Попробуй загрузить другие селфи"
+
+#: src/templates/index.html:147
+msgid "An error occurred during upload"
+msgstr "Произошла ошибка при загрузке, попробуй снова"
+
+#: src/templates/index.html:149
+msgid "Found similar photos:"
+msgstr "Найдено похожих фото:"

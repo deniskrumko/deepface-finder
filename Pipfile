@@ -16,6 +16,7 @@ jinja2 = "*"
 dynaconf = "*"
 boto3 = "*"
 botocore = "*"
+babel = "*"
 # Deepface related
 deepface = "*"
 tf-keras = "*"

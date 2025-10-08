@@ -8,6 +8,8 @@ from fastapi import Request
 from fastapi.templating import Jinja2Templates
 from starlette.templating import _TemplateResponse as TemplateResponse
 
+from .i18n import get_translations
+
 TEMPLATES: Optional[Jinja2Templates] = None
 ERROR_TEMPLATE = "error.html"
 ERROR_NO_SERVER_TEMPLATE = "error_no_server.html"
@@ -26,6 +28,11 @@ def get_templates() -> Jinja2Templates:
     from .render import RENDER_HELPERS
 
     templates.env.globals.update(**RENDER_HELPERS)
+    templates.env.add_extension("jinja2.ext.i18n")
+
+    # Set translations
+    translations = get_translations()
+    templates.env.install_gettext_translations(translations)
 
     TEMPLATES = templates
     return templates
@@ -48,4 +55,11 @@ def render_template(
 
 def get_base_context(request: Request) -> dict:
     """Base context for all templates."""
-    return {}
+    from .settings import get_settings
+
+    settings = get_settings()
+    return {
+        "branding_title": settings.ui.branding_title,
+        "branding_image": settings.ui.branding_image,
+        "branding_text": settings.ui.branding_text,
+    }

@@ -16,7 +16,42 @@ def batch_processing(
     allowed_extensions: set[str] = IMAGE_EXTENSIONS,
     **processing_func_kwargs: Any,
 ) -> int:
-    """Apply function to all images in src_dir and save to dst_dir."""
+    """Apply a processing function to all images in a source directory.
+
+    Recursively processes all files in the source directory that match the allowed
+    extensions, applying the specified processing function to each file. Optionally
+    saves results to a destination directory maintaining the same directory structure.
+
+    Args:
+        processing_func (Callable): Function to apply to each image. Should accept
+            either (src_path, **kwargs) or (src_path, dst_path, **kwargs) signature.
+        src_dir (str | Path): Source directory containing images to process.
+        dst_dir (str | Path | None, optional): Destination directory for processed
+            images. If None, processing_func is called without dst_path. Defaults to None.
+        display_progress (bool, optional): Whether to print progress messages and
+            results. Defaults to True.
+        raise_errors (bool, optional): Whether to raise exceptions on processing
+            errors or continue with next file. Defaults to False.
+        allowed_extensions (set[str], optional): Set of allowed file extensions
+            to process. Defaults to IMAGE_EXTENSIONS.
+        **processing_func_kwargs (Any): Additional keyword arguments to pass to
+            the processing function.
+
+    Returns:
+        int: Number of successfully processed files.
+
+    Example:
+        >>> def resize_image(src_path, dst_path, size=(100, 100)):
+        ...     # Image resizing logic here
+        ...     return "resized"
+        >>>
+        >>> processed_count = batch_processing(
+        ...     resize_image,
+        ...     "input_images/",
+        ...     "output_images/",
+        ...     size=(200, 200)
+        ... )
+    """
     if not callable(processing_func):
         raise ValueError("processing_func must be a callable function")
 
