@@ -80,7 +80,8 @@ def batch_processing(
 
             processed += 1
             if display_progress:
-                print(f"{processing_func.__name__} {src_path} -> {dst_path}: {result!r}")  # noqa
+                result_repr = f": {result!r}" if result is not None else ""
+                print(f"{processing_func.__name__} {src_path} -> {dst_path}{result_repr}")  # noqa
         except KeyboardInterrupt:
             if display_progress:
                 print("Process interrupted by user.")  # noqa

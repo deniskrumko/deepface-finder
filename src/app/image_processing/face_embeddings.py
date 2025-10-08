@@ -41,6 +41,8 @@ def get_embeddings(
 def create_embeddings_file(
     image_path: str | Path,
     embedding_path: str | Path,
+    model_name: str,
+    detector_backend: str,
     embedding_ext: str = DEFAULT_EMBEDDING_EXT,
     skip_existing: bool = True,
     **kwargs: Any,
@@ -56,7 +58,12 @@ def create_embeddings_file(
     if not embedding_path.parent.exists():
         embedding_path.parent.mkdir(parents=True, exist_ok=True)
 
-    embeddings = get_embeddings(image_path=image_path, **kwargs)
+    embeddings = get_embeddings(
+        image_path=image_path,
+        model_name=model_name,
+        detector_backend=detector_backend,
+        **kwargs,
+    )
     if not embeddings:
         return 0
 

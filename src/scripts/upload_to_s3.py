@@ -1,14 +1,19 @@
 """
-PYTHONPATH=src py src/scripts/upload_to_s3.py
+Upload original images, resized images and embeddings files to S3.
+
+Example:
+
+PYTHONPATH=src py src/scripts/upload_to_s3.py \
+    --config config/test.toml \
+    --original exports/samples \
+    --resized exports/samples_resized \
+    --embeddings exports/samples_embeddings
 """
 
 from app.core.settings import get_settings
 from app.image_processing.batch import batch_processing
 from app.image_processing.face_embeddings import DEFAULT_EMBEDDING_EXT
-from app.image_processing.storages import (
-    get_s3_client,
-    upload_file_to_s3,
-)
+from app.storages import S3Client
 
 
 def main(
@@ -18,45 +23,36 @@ def main(
     embeddings_dir: str = "exports/samples_embeddings",
 ) -> None:
     settings = get_settings(config_path)
-
-    s3_client = get_s3_client(
-        region=settings.s3.region,
-        endpoint=settings.s3.endpoint,
-        key=settings.s3.key,
-        secret=settings.s3.secret,
-    )
+    s3_client = S3Client.from_config(settings.s3)
 
     print("Uploading original images")
 
     batch_processing(
-        upload_file_to_s3,
+        s3_client.upload_file_to_s3,
         src_dir=original_dir,
         dst_dir=settings.images.original,
         # Upload params
-        s3_client=s3_client,
         bucket_name=settings.images.bucket,
     )
 
     print("Uploading resized images")
 
     batch_processing(
-        upload_file_to_s3,
+        s3_client.upload_file_to_s3,
         src_dir=resized_dir,
         dst_dir=settings.images.resized,
         # Upload params
-        s3_client=s3_client,
         bucket_name=settings.images.bucket,
     )
 
     print("Uploading embeddings")
 
     batch_processing(
-        upload_file_to_s3,
+        s3_client.upload_file_to_s3,
         src_dir=embeddings_dir,
         dst_dir=settings.images.embeddings,
         allowed_extensions={DEFAULT_EMBEDDING_EXT},
         # Upload params
-        s3_client=s3_client,
         bucket_name=settings.images.bucket,
     )
 

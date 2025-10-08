@@ -13,6 +13,12 @@ up:
 down:
 	docker-compose down
 
+# DOCKER
+# ======
+
+build:
+	docker build -t ${IMAGE} .
+
 # LOCAL DEVELOPMENT
 # =================
 

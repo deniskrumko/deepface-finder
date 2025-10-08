@@ -1,0 +1,17 @@
+networks:
+  deepface_network:
+    driver: bridge
+
+services:
+
+  deepface-finder:
+    # image: deniskrumko/deepface-finder:latest
+    build: .
+    environment:
+      APP_CONFIG: /config.toml
+    networks:
+      - deepface_network
+    volumes:
+      - ./config/test.toml:/config.toml:ro
+    ports:
+      - 8080:8080
