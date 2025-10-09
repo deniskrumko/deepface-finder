@@ -24,6 +24,7 @@ class FileUploader {
     this.modalSimilarity = document.getElementById("modalSimilarity");
     this.modalDownload = document.getElementById("modalDownload");
     this.resultsHeading = this.resultsSection.querySelector("h2");
+    this.sortBy = document.getElementById("sortBy");
 
     this.init();
   }
@@ -32,6 +33,7 @@ class FileUploader {
     this.addBtn.addEventListener("click", () => this.fileInput.click());
     this.fileInput.addEventListener("change", (e) => this.handleFileSelect(e));
     this.uploadBtn.addEventListener("click", () => this.uploadFiles());
+    this.sortBy.addEventListener("change", () => this.sortResults());
 
     // Drag and drop functionality - only on uploadDropArea
     this.uploadDropArea.addEventListener("dragenter", (e) =>
@@ -242,6 +244,20 @@ class FileUploader {
 
   calculateSimilarity(distance) {
     return Math.round((1 - distance) * 100);
+  }
+
+  sortResults() {
+    const sortValue = this.sortBy.value;
+
+    if (sortValue === "accuracy") {
+      // Sort by distance (lower distance = higher accuracy)
+      this.results.sort((a, b) => a.distance - b.distance);
+    } else if (sortValue === "filename") {
+      // Sort by filename alphabetically
+      this.results.sort((a, b) => a.filename.localeCompare(b.filename));
+    }
+
+    this.displayResults();
   }
 
   displayResults() {

@@ -340,11 +340,53 @@ h1 {
     border-top: 2px solid #e9ecef;
 }
 
+.results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
 .results-section h2 {
     color: #333;
-    margin-bottom: 25px;
+    margin-bottom: 0;
     font-size: 1.5em;
     font-weight: 500;
+}
+
+.sort-selector {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sort-selector label {
+    color: #666;
+    font-size: 0.9em;
+    white-space: nowrap;
+}
+
+.sort-selector select {
+    padding: 8px 12px;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    background: white;
+    color: #333;
+    font-family: inherit;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: border-color 0.3s;
+}
+
+.sort-selector select:hover {
+    border-color: #666;
+}
+
+.sort-selector select:focus {
+    outline: none;
+    border-color: #333;
 }
 
 .image-grid {

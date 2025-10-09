@@ -5,6 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <meta name="description" content="DeepFace Finder - Upload and process images" />
+    <link rel="icon" type="image/png" href="/static/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/static/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/static/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon/apple-touch-icon.png" />
+    <meta name="theme-color" content="#12151a">
+    <meta name="apple-mobile-web-app-title" content="DeepFace" />
+    <link rel="manifest" href="/static/favicon/site.webmanifest" />
     <link rel="stylesheet" href="/static/css/branding.css">
     <link rel="stylesheet" href="/static/css/base.css">
     <link rel="stylesheet" href="/static/css/notifications.css">
@@ -91,7 +98,16 @@
       </div>
 
       <div class="results-section" id="resultsSection" style="display: none;">
-        <h2>{% trans %}Results{% endtrans %}</h2>
+        <div class="results-header">
+          <h2>{% trans %}Results{% endtrans %}</h2>
+          <div class="sort-selector">
+            <label for="sortBy">{% trans %}Sort by:{% endtrans %}</label>
+            <select id="sortBy">
+              <option value="accuracy">{% trans %}Accuracy{% endtrans %}</option>
+              <option value="filename">{% trans %}Filename{% endtrans %}</option>
+            </select>
+          </div>
+        </div>
         <div class="image-grid" id="imageGrid"></div>
         <a class="github-star" href="https://github.com/deniskrumko/deepface-finder" target="_blank">
           <img src="/static/images/github.svg" alt="">
@@ -147,6 +163,9 @@
           "upload_error": "{% trans %}An error occurred during upload{% endtrans %}",
           "upload_btn": "{% trans %}Upload files{% endtrans %}",
           "found_similar": "{% trans %}Found similar photos:{% endtrans %}",
+          "sort_by": "{% trans %}Sort by:{% endtrans %}",
+          "accuracy": "{% trans %}Accuracy{% endtrans %}",
+          "filename": "{% trans %}Filename{% endtrans %}",
         };
 
         let text = translations[key] || key;
