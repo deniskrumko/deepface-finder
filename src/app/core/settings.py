@@ -68,7 +68,7 @@ def get_settings(settings_file: str | Path | None = None) -> Settings:
     settings = Settings.from_config(
         Dynaconf(  # type:ignore
             envvar_prefix=ENV_VAR_PREFIX + "_",
-            settings_file=settings_file or getenv("APP_CONFIG", "config/default.toml"),
+            settings_file=settings_file or getenv("APP_CONFIG", "/config.toml"),
         ),
     )
 

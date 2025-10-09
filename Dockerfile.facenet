@@ -1,0 +1,6 @@
+FROM deniskrumko/deepface-finder:v1.0.0
+
+# Preload models
+ARG model_name=Facenet
+ARG detector_backend=yolov8
+RUN python3 -m scripts.prepare_models --model-name ${model_name} --detector-backend ${detector_backend}
