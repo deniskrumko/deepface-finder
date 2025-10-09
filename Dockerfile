@@ -36,9 +36,4 @@ RUN mkdir /yolo_config
 
 EXPOSE 8080
 
-# Preload models
-ARG model_name
-ARG detector_backend
-RUN python3 -m scripts.prepare_models --model-name ${model_name} --detector-backend ${detector_backend}
-
 CMD ["python3", "-m", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080"]
