@@ -1,4 +1,3 @@
-import logging
 from typing import Any
 
 from fastapi import (
@@ -12,6 +11,7 @@ from starlette.responses import Response
 
 from app.core.fastapi import error_response
 from app.core.i18n import _
+from app.core.logging import Logger
 from app.core.settings import Settings
 from app.core.templates import render_template
 from app.image_processing.face_detection import (
@@ -25,7 +25,6 @@ from app.image_processing.resources import (
 from app.storages import S3Proxy
 
 router = APIRouter()
-logger = logging.getLogger(__name__)
 
 MAX_FILES: int = 5
 
@@ -48,6 +47,7 @@ async def upload_files(
         return error_response(_("At least one file is required"))
 
     settings: Settings = request.app.settings  # type:ignore
+    logger: Logger = request.app.logger  # type:ignore
 
     try:
         user_faces = await extract_faces_from_files(
@@ -56,7 +56,7 @@ async def upload_files(
             min_face_size=settings.deepface.min_detector_face_size,
         )
     except Exception as e:
-        logger.exception(f"Error during processing uploaded files: {e!r}")
+        logger.exception("Error during processing uploaded files", e)
         return error_response(_("Error during processing uploaded files: {}").format(e))
 
     try:
@@ -66,10 +66,16 @@ async def upload_files(
             model_name=settings.deepface.model_name,
         )
     except Exception as e:
-        logger.exception(f"Error during finding similar photos: {e!r}")
+        logger.exception("Error during finding similar photos", e)
         return error_response(_("Error during finding similar photos: {}").format(e))
 
-    logger.info(f"Found {len(similar_faces)} similar faces for {len(user_faces)} uploaded faces")
+    logger.info(
+        "Processing result",
+        files=[str(f.filename) for f in files],
+        similar_faces=len(similar_faces),
+        user_faces=len(user_faces),
+        **request.headers,
+    )
 
     s3_proxy: S3Proxy = request.app.s3_proxy  # type:ignore
     result_files = [

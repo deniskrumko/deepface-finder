@@ -6,12 +6,13 @@ services:
 
   deepface-finder:
     # image: deniskrumko/deepface-finder:latest
+    # image: deepface-finder:local
     build: .
     environment:
       APP_CONFIG: /config.toml
     networks:
       - deepface_network
     volumes:
-      - ./config/test.toml:/config.toml:ro
+      - ./config/kolesa.toml:/config.toml:ro
     ports:
       - 8080:8080

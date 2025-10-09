@@ -7,7 +7,7 @@ MY_IP=192.168.1.139
 
 # Run app in Docker
 up:
-	docker-compose up --build -d
+	docker-compose up --build
 
 # Stop app in Docker
 down:
@@ -17,7 +17,7 @@ down:
 # ======
 
 build:
-	docker build -t ${IMAGE} .
+	docker build -t ${IMAGE} . --build-arg model_name=Facenet --build-arg detector_backend=yolov8
 
 # LOCAL DEVELOPMENT
 # =================

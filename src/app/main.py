@@ -1,7 +1,7 @@
-import logging
 from pathlib import Path
 
 from app.core.fastapi import init_fastapi_app
+from app.core.logging import Logger
 from app.core.settings import get_settings
 from app.image_processing.face_embeddings import read_embeddings_dir
 from app.storages import (
@@ -9,13 +9,14 @@ from app.storages import (
     S3Proxy,
 )
 
-logger = logging.getLogger(__name__)
-
 # Initialize FastAPI application
 app = init_fastapi_app()
 
 settings = get_settings()
 app.settings = settings  # type:ignore
+
+logger = Logger(**settings.logging.model_dump())
+app.logger = logger  # type:ignore
 
 s3_client = S3Client.from_config(settings.s3)
 app.s3_client = s3_client  # type:ignore
@@ -30,10 +31,13 @@ app.s3_proxy = s3_proxy  # type:ignore
 def load_files_lists() -> None:
     """Load lists of image and embedding files from S3."""
     for attr in ("original", "resized", "embeddings"):
-        objects = s3_client.list_files_in_s3_prefix(
-            bucket_name=settings.images.bucket,
-            s3_prefix=getattr(settings.images, attr),
-        )
+        try:
+            objects = s3_client.list_files_in_s3_prefix(
+                bucket_name=settings.images.bucket,
+                s3_prefix=getattr(settings.images, attr),
+            )
+        except Exception as e:
+            raise RuntimeError(f"Failed to list {attr} files: {e}")
 
         if not objects:
             raise ValueError(f"No {attr} objects found")

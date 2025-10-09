@@ -14,6 +14,7 @@ from app.storages.resources import (
     S3Settings,
 )
 
+from .logging import LoggingSettings
 from .utils import LowercaseKeyMixin
 
 ENV_VAR_PREFIX = "DFF"
@@ -34,6 +35,7 @@ class Settings(BaseModel):
     proxy: ProxySettings
     images: ImagesSettings
     deepface: DeepfaceSettings
+    logging: LoggingSettings
 
     @classmethod
     def from_config(cls, config: Mapping) -> "Settings":
@@ -43,6 +45,7 @@ class Settings(BaseModel):
             proxy=config["proxy"],
             images=config["images"],
             deepface=config.get("deepface", {}),
+            logging=config.get("logging", {}),
         )
 
 
