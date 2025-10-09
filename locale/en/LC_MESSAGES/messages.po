@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-10-08 16:24+0500\n"
+"POT-Creation-Date: 2025-10-09 21:07+0500\n"
 "PO-Revision-Date: 2025-10-05 09:45+0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -18,12 +18,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: src/app/views/index.py:45
+#: src/app/views/index.py:44
 #, python-brace-format
 msgid "Maximum {} files allowed"
 msgstr ""
 
-#: src/app/views/index.py:48
+#: src/app/views/index.py:47
 msgid "At least one file is required"
 msgstr ""
 
@@ -37,102 +37,114 @@ msgstr ""
 msgid "Error during finding similar photos: {}"
 msgstr ""
 
-#: src/app/views/index.py:102
+#: src/app/views/index.py:108
 #, python-brace-format
 msgid "File {} is not a supported image format"
 msgstr ""
 
-#: src/app/views/index.py:107
+#: src/app/views/index.py:113
 #, python-brace-format
 msgid "File {} is too large (max 10MB)"
 msgstr ""
 
-#: src/app/views/index.py:111
+#: src/app/views/index.py:117
 #, python-brace-format
 msgid "No faces detected in file {}"
 msgstr ""
 
-#: src/app/views/index.py:116
+#: src/app/views/index.py:122
 #, python-brace-format
 msgid ""
 "Multiple faces detected in file {}. Please upload images with a single "
 "face."
 msgstr ""
 
-#: src/templates/index.html:29
+#: src/templates/index.html:36
 msgid ""
 "Search through millions of images to find photos of you using <span "
 "class=\"highlight\">AI-powered facial recognition</span>"
 msgstr ""
 
-#: src/templates/index.html:30
+#: src/templates/index.html:37
 msgid ""
 "Perfect for event photographers, social media enthusiasts, and anyone "
 "looking to find their photos quickly and easily"
 msgstr ""
 
-#: src/templates/index.html:40
+#: src/templates/index.html:47
 msgid "Drag and drop files here or click to select"
 msgstr ""
 
-#: src/templates/index.html:44
+#: src/templates/index.html:51
 msgid "Add files"
 msgstr ""
 
-#: src/templates/index.html:47
+#: src/templates/index.html:54
 msgid "5 files"
 msgstr ""
 
-#: src/templates/index.html:59
+#: src/templates/index.html:66
 msgid "Upload up to 5 files to increase search accuracy"
 msgstr ""
 
-#: src/templates/index.html:66
+#: src/templates/index.html:73
 msgid "Each photo should contain only one face"
 msgstr ""
 
-#: src/templates/index.html:73
+#: src/templates/index.html:80
 msgid "Uploaded photos won't be shared or saved anywhere"
 msgstr ""
 
-#: src/templates/index.html:80
+#: src/templates/index.html:87
 msgid "ML model can make mistakes, but who doesn't?"
 msgstr ""
 
-#: src/templates/index.html:89 src/templates/index.html:148
+#: src/templates/index.html:96 src/templates/index.html:164
 msgid "Upload files"
 msgstr ""
 
-#: src/templates/index.html:94
+#: src/templates/index.html:102
 msgid "Results"
 msgstr ""
 
-#: src/templates/index.html:98
+#: src/templates/index.html:104 src/templates/index.html:166
+msgid "Sort by:"
+msgstr ""
+
+#: src/templates/index.html:106 src/templates/index.html:167
+msgid "Accuracy"
+msgstr ""
+
+#: src/templates/index.html:107 src/templates/index.html:168
+msgid "Filename"
+msgstr ""
+
+#: src/templates/index.html:114
 msgid "Star this project on Github or suggest any improvements!"
 msgstr ""
 
-#: src/templates/index.html:143
+#: src/templates/index.html:159
 msgid "Only image files are allowed"
 msgstr ""
 
-#: src/templates/index.html:144
+#: src/templates/index.html:160
 #, python-brace-format
 msgid "Can only add {0} more files (maximum {1} files)"
 msgstr ""
 
-#: src/templates/index.html:145
+#: src/templates/index.html:161
 msgid "Loading..."
 msgstr ""
 
-#: src/templates/index.html:146
+#: src/templates/index.html:162
 msgid "No matching images were found<br>Try uploading different photos"
 msgstr ""
 
-#: src/templates/index.html:147
+#: src/templates/index.html:163
 msgid "An error occurred during upload"
 msgstr ""
 
-#: src/templates/index.html:149
+#: src/templates/index.html:165
 msgid "Found similar photos:"
 msgstr ""
 

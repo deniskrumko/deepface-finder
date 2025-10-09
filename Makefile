@@ -1,6 +1,8 @@
 IMAGE=deepface-finder:local
 # MY_IP=0.0.0.0
 MY_IP=192.168.1.139
+CONFIG=config/kolesa.toml
+# CONFIG=config/birthday.toml
 
 # DOCKER COMPOSE
 # ==============
@@ -28,7 +30,7 @@ my_ip:
 run:
 	PYTHONBREAKPOINT=ipdb.set_trace \
 	PYTHONPATH=src \
-	APP_CONFIG=config/test.toml \
+	APP_CONFIG=${CONFIG} \
 	python3 -m uvicorn app.main:app --host ${MY_IP} --port 8080
 
 # Install all dependencies

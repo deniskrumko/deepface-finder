@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-10-08 16:24+0500\n"
+"POT-Creation-Date: 2025-10-09 21:07+0500\n"
 "PO-Revision-Date: 2025-10-05 09:45+0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -19,12 +19,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: src/app/views/index.py:45
+#: src/app/views/index.py:44
 #, python-brace-format
 msgid "Maximum {} files allowed"
 msgstr "Можно загрузить до {} файлов"
 
-#: src/app/views/index.py:48
+#: src/app/views/index.py:47
 msgid "At least one file is required"
 msgstr "Загрузите хотя бы один файл"
 
@@ -38,22 +38,22 @@ msgstr "Ошибка при обработке загруженных фото: 
 msgid "Error during finding similar photos: {}"
 msgstr "Ошибка при поиске похожих фото: {}"
 
-#: src/app/views/index.py:102
+#: src/app/views/index.py:108
 #, python-brace-format
 msgid "File {} is not a supported image format"
 msgstr "Формат файла {} не поддерживается"
 
-#: src/app/views/index.py:107
+#: src/app/views/index.py:113
 #, python-brace-format
 msgid "File {} is too large (max 10MB)"
 msgstr "Файл {} слишком большой (максимум 10 МБ)"
 
-#: src/app/views/index.py:111
+#: src/app/views/index.py:117
 #, python-brace-format
 msgid "No faces detected in file {}"
 msgstr "Не найдено лиц в файле {}"
 
-#: src/app/views/index.py:116
+#: src/app/views/index.py:122
 #, python-brace-format
 msgid ""
 "Multiple faces detected in file {}. Please upload images with a single "
@@ -62,7 +62,7 @@ msgstr ""
 "Найдено несколько лиц в файле {}. Пожалуйста, загрузите фото только с "
 "одним лицом"
 
-#: src/templates/index.html:29
+#: src/templates/index.html:36
 msgid ""
 "Search through millions of images to find photos of you using <span "
 "class=\"highlight\">AI-powered facial recognition</span>"
@@ -70,7 +70,7 @@ msgstr ""
 "Найди себя среди миллионов фотографий при помощи <span "
 "class=\"highlight\">AI распознавания лиц</span>"
 
-#: src/templates/index.html:30
+#: src/templates/index.html:37
 msgid ""
 "Perfect for event photographers, social media enthusiasts, and anyone "
 "looking to find their photos quickly and easily"
@@ -78,67 +78,80 @@ msgstr ""
 "Идеально подходит для профессиональных ивент фотографов, и просто всех "
 "кто хочет искать свои фото быстро и просто"
 
-#: src/templates/index.html:40
+#: src/templates/index.html:47
 msgid "Drag and drop files here or click to select"
 msgstr "Перетащи файлы сюда или нажми, чтобы выбрать"
 
-#: src/templates/index.html:44
+#: src/templates/index.html:51
 msgid "Add files"
 msgstr "Добавить файлы"
 
-#: src/templates/index.html:47
+#: src/templates/index.html:54
 msgid "5 files"
 msgstr "5 файлов"
 
-#: src/templates/index.html:59
+#: src/templates/index.html:66
 msgid "Upload up to 5 files to increase search accuracy"
 msgstr "Загрузи до 5 файлов, чтобы увеличить точность поиска"
 
-#: src/templates/index.html:66
+#: src/templates/index.html:73
 msgid "Each photo should contain only one face"
 msgstr "На каждом фото должно быть только твоё лицо"
 
-#: src/templates/index.html:73
+#: src/templates/index.html:80
 msgid "Uploaded photos won't be shared or saved anywhere"
 msgstr "Загруженные фото не публикуются и нигде не сохраняются"
 
-#: src/templates/index.html:80
+#: src/templates/index.html:87
 msgid "ML model can make mistakes, but who doesn't?"
 msgstr "ML модель может ошибаться при поиске, но кто не ошибается?"
 
-#: src/templates/index.html:89 src/templates/index.html:148
+#: src/templates/index.html:96 src/templates/index.html:164
 msgid "Upload files"
 msgstr "Загрузить файлы"
 
-#: src/templates/index.html:94
+#: src/templates/index.html:102
 msgid "Results"
 msgstr "Результаты"
 
-#: src/templates/index.html:98
+#: src/templates/index.html:104 src/templates/index.html:166
+msgid "Sort by:"
+msgstr "Сортировать по:"
+
+#: src/templates/index.html:106 src/templates/index.html:167
+msgid "Accuracy"
+msgstr "точности"
+
+#: src/templates/index.html:107 src/templates/index.html:168
+msgid "Filename"
+msgstr "названию файла"
+
+#: src/templates/index.html:114
 msgid "Star this project on Github or suggest any improvements!"
 msgstr "Оцени этот проект на Github или предложи любые улучшения!"
 
-#: src/templates/index.html:143
+#: src/templates/index.html:159
 msgid "Only image files are allowed"
 msgstr "Разрешены только файлы с изображениями"
 
-#: src/templates/index.html:144
+#: src/templates/index.html:160
 #, python-brace-format
 msgid "Can only add {0} more files (maximum {1} files)"
 msgstr "Еще можно добавить только {0} файл(а) (всего {1} файлов)"
 
-#: src/templates/index.html:145
+#: src/templates/index.html:161
 msgid "Loading..."
 msgstr "Загрузка..."
 
-#: src/templates/index.html:146
+#: src/templates/index.html:162
 msgid "No matching images were found<br>Try uploading different photos"
 msgstr "Не удалось найти похожие фото<br>Попробуй загрузить другие селфи"
 
-#: src/templates/index.html:147
+#: src/templates/index.html:163
 msgid "An error occurred during upload"
 msgstr "Произошла ошибка при загрузке, попробуй снова"
 
-#: src/templates/index.html:149
+#: src/templates/index.html:165
 msgid "Found similar photos:"
 msgstr "Найдено похожих фото:"
+
