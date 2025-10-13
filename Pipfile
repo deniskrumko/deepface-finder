@@ -3,6 +3,11 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 name = "pypi"
 
+[[source]]
+url = "https://download.pytorch.org/whl/cpu"
+verify_ssl = true
+name = "pytorch"
+
 [requires]
 python_version = "3.12"
 
@@ -24,6 +29,9 @@ Pillow = "*"
 pillow-heif = "*"
 fastparquet = "*"
 ultralytics = "*"
+# Torch
+torch = {version = "*", index = "pytorch"}
+torchvision = {version = "*", index = "pytorch"}
 
 [dev-packages]
 ipdb = "*"
