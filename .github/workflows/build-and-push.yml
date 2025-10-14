@@ -8,8 +8,8 @@ on:
       - '*'
 
 jobs:
-  build:
-    name: Build
+  build-cpu:
+    name: Build for CPU
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -35,9 +35,37 @@ jobs:
             deniskrumko/deepface-finder:latest
             deniskrumko/deepface-finder:${{ github.ref_name }}
 
+  build-cuda:
+    name: Build for CUDA
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile.cu116
+          push: true
+          platforms: |
+            linux/amd64
+            linux/arm64
+          tags: |
+            deniskrumko/deepface-finder-cuda11.6.2:latest
+            deniskrumko/deepface-finder-cuda11.6.2:${{ github.ref_name }}
+
   release:
     name: Release
-    needs: [build]
+    needs: [build-cpu, build-cuda]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
