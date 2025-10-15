@@ -1,4 +1,4 @@
-ARG CUDA_VERSION="11.6.2"
+ARG CUDA_VERSION="12.9.1"
 ARG FLAVOR="runtime"
 ARG OS="ubuntu20.04"
 ARG CUDA_IMAGE_VERSION="${CUDA_VERSION}-${FLAVOR}-${OS}"
@@ -40,9 +40,6 @@ RUN apt-get --yes update && \
     rm -rf /var/lib/apt/lists/*
 
 ARG PYTHON_VERSION="3.12.4"
-ARG TORCH_VERSION="2.8.0+cu116"
-ARG TORCHVISION_VERSION="0.23.0+cu116"
-ARG TORCH_URL="https://download.pytorch.org/whl/cu116"
 RUN curl https://pyenv.run | bash && \
     # Install Python
     pyenv install ${PYTHON_VERSION} && \
@@ -53,8 +50,12 @@ RUN curl https://pyenv.run | bash && \
     pip install pipenv
 
 COPY Pipfile Pipfile.lock ./
+
+ARG TORCH_VERSION="2.8.0+cu129"
+ARG TORCHVISION_VERSION="0.23.0+cu129"
+ARG TORCH_URL="https://download.pytorch.org/whl/cu129"
 RUN pipenv install --ignore-pipfile --system -v && \
-    pip install torch==${TORCH_VERSION} torchvision==${TORCHVISION_VERSION} --extra-index-url ${TORCH_URL} && \
+    pip install torch==${TORCH_VERSION} torchvision==${TORCHVISION_VERSION} --index-url ${TORCH_URL} && \
     pip uninstall -y pipenv && \
     rm -rf ~/.cache/pip /root/.cache/pipenv /root/.local/share/virtualenvs
 

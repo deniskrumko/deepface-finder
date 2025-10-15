@@ -157,7 +157,7 @@ docker build -t deepface-finder:facenet-yolov8 . \
 
 # CUDA support
 
-There is a separate Docker image `deniskrumko/deepface-finder-cuda11.6.2:latest` that uses CUDA versions of Torch and TorchVision.
+There is a separate [Docker image](./Dockerfile.cuda) `deniskrumko/deepface-finder-cuda:latest` that uses CUDA versions of Torch and TorchVision.
 
 # Credits
 

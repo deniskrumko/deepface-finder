@@ -54,14 +54,14 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          file: ./Dockerfile.cu116
+          file: ./Dockerfile.cuda
           push: true
           platforms: |
             linux/amd64
             linux/arm64
           tags: |
-            deniskrumko/deepface-finder-cuda11.6.2:latest
-            deniskrumko/deepface-finder-cuda11.6.2:${{ github.ref_name }}
+            deniskrumko/deepface-finder-cuda:latest
+            deniskrumko/deepface-finder-cuda:${{ github.ref_name }}
 
   release:
     name: Release

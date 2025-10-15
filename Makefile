@@ -23,7 +23,7 @@ build:
 	docker build -t ${IMAGE} .
 
 build-cuda:
-	docker build -f Dockerfile.cu116 -t ${CUDA_IMAGE} .
+	docker build -f Dockerfile.cuda -t ${CUDA_IMAGE} .
 
 # LOCAL DEVELOPMENT
 # =================
