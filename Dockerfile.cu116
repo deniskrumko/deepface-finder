@@ -1,0 +1,75 @@
+ARG CUDA_VERSION="11.6.2"
+ARG FLAVOR="runtime"
+ARG OS="ubuntu20.04"
+ARG CUDA_IMAGE_VERSION="${CUDA_VERSION}-${FLAVOR}-${OS}"
+FROM nvidia/cuda:${CUDA_IMAGE_VERSION}
+
+# Set the user to root (optional, as it's the default)
+USER root
+
+ENV DEBIAN_FRONTEND="noninteractive"
+ENV HOME="/root"
+ENV PYENV_ROOT="${HOME}/.pyenv"
+ENV PATH="${PYENV_ROOT}/shims:${PYENV_ROOT}/bin:${PATH}"
+
+RUN mkdir build
+WORKDIR /build
+
+# Install dependencies
+RUN apt-get --yes update && \
+    apt-get install --yes --no-install-recommends \
+    build-essential \
+    libssl-dev \
+    zlib1g-dev \
+    libbz2-dev \
+    libreadline-dev \
+    libsqlite3-dev \
+    libncursesw5-dev  \
+    xz-utils  \
+    tk-dev  \
+    libxml2-dev  \
+    libxmlsec1-dev  \
+    libffi-dev  \
+    liblzma-dev \
+    curl \
+    git \
+    libgl1-mesa-glx \
+    libsm6 \
+    libxext6 \
+    ffmpeg && \
+    rm -rf /var/lib/apt/lists/*
+
+ARG PYTHON_VERSION="3.12.4"
+ARG TORCH_VERSION="2.8.0+cu116"
+ARG TORCHVISION_VERSION="0.23.0+cu116"
+ARG TORCH_URL="https://download.pytorch.org/whl/cu116"
+RUN curl https://pyenv.run | bash && \
+    # Install Python
+    pyenv install ${PYTHON_VERSION} && \
+    pyenv global ${PYTHON_VERSION} && \
+    # Upgrade Pip
+    pip install --upgrade pip && \
+    # Install python packages
+    pip install pipenv
+
+COPY Pipfile Pipfile.lock ./
+RUN pipenv install --ignore-pipfile --system -v && \
+    pip install torch==${TORCH_VERSION} torchvision==${TORCHVISION_VERSION} --extra-index-url ${TORCH_URL} && \
+    pip uninstall -y pipenv && \
+    rm -rf ~/.cache/pip /root/.cache/pipenv /root/.local/share/virtualenvs
+
+# Compile translations
+COPY scripts ./scripts
+COPY locale ./locale
+COPY babel.cfg ./
+RUN sh scripts/compile_translations.sh
+
+COPY src ./src
+ENV PYTHONPATH=src
+
+ENV YOLO_CONFIG_DIR=/yolo_config
+RUN mkdir /yolo_config
+
+EXPOSE 8080
+
+CMD ["python3", "-m", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080"]

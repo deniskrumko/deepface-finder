@@ -1,4 +1,6 @@
-FROM python:3.12.11-slim-bullseye
+ARG PYTHON_VERSION="3.12.4"
+
+FROM python:${PYTHON_VERSION}-slim-bullseye
 
 # Set the user to root (optional, as it's the default)
 USER root
@@ -7,8 +9,8 @@ RUN mkdir build
 WORKDIR /build
 
 # Install dependencies
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
+RUN apt-get --yes update && \
+    apt-get install --yes --no-install-recommends \
     libgl1-mesa-glx \
     libsm6 \
     libxext6 \

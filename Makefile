@@ -1,4 +1,5 @@
 IMAGE=deepface-finder:local
+CUDA_IMAGE=deepface-finder-cuda116:local
 # MY_IP=0.0.0.0
 MY_IP=192.168.1.139
 CONFIG=config/kolesa.toml
@@ -19,7 +20,10 @@ down:
 # ======
 
 build:
-	docker build -t ${IMAGE} . --build-arg model_name=Facenet --build-arg detector_backend=yolov8
+	docker build -t ${IMAGE} .
+
+build-cuda:
+	docker build -f Dockerfile.cu116 -t ${CUDA_IMAGE} .
 
 # LOCAL DEVELOPMENT
 # =================
@@ -39,7 +43,7 @@ deps: pipenv
 # Install py dependencies
 pipenv:
 	pip install pipenv
-	pipenv install --dev
+	pipenv install --dev --pipfile=Pipfile.cpu
 
 # Open Deepface Finder UI
 ui:

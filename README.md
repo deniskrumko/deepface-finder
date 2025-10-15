@@ -105,6 +105,8 @@ With this configuration UI will look like...
 
 # How to run service
 
+NOTE: See "CUDA support" section bellow to use CUDA-based Docker image.
+
 1. Locally using virtual env:
 
     ```bash
@@ -152,6 +154,10 @@ docker build -t deepface-finder:facenet-yolov8 . \
     --build-arg model_name=Facenet \
     --build-arg detector_backend=yolov8
 ```
+
+# CUDA support
+
+There is a separate Docker image `deniskrumko/deepface-finder-cuda11.6.2:latest` that uses CUDA versions of Torch and TorchVision.
 
 # Credits
 
