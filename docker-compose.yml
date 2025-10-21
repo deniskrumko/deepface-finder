@@ -7,10 +7,9 @@ services:
   deepface-finder:
     # image: deniskrumko/deepface-finder:latest
     # image: deepface-finder:local
-    # build: .
     build:
       context: .
-      dockerfile: Dockerfile.facenet
+      # dockerfile: Dockerfile.facenet
     environment:
       APP_CONFIG: /config.toml
     networks:
