@@ -8,15 +8,24 @@ Face finder web app powered by [DeepFace](https://github.com/serengil/deepface)
 
 Docker Hub: https://hub.docker.com/r/deniskrumko/deepface-finder
 
+**Features:**
+
+- Supports range of ML models to use (see [DeepFace](https://github.com/serengil/deepface) docs)
+- Has nice desktop and mobile web UI 💅
+- UI is translated to both English and Russian (can be configured)
+- Supports many image formats (like `.heic` from iPhones)
+- Uses AWS S3 (or compatible storages) as images/embeddings storage
+- Works both on CPU/GPU
+
 ![preview](https://github.com/deniskrumko/deepface-finder/blob/main/src/static/images/preview.jpg?raw=true)
 
 # How it works
 
-- You get a bunch of images (from your birthday party, huge IT event, or anything)
-- Preprocess them using scripts: create resized versions and get embeddings. How? Read the "How to prepare images" section
-- Upload original/resized/embedding files to cloud storage (currently, only S3 is supported)
-- Run the [deepface-finder](https://github.com/deniskrumko/deepface-finder) service
-- Upload 1 to 5 photos with your face and instantly find photos with your face!
+- You take a lot of photos (*on your birthday party or any huge event*)
+- Preprocess files locally using provided scripts once. Read "How to prepare images" section
+- Upload original/resized/embedding files to cloud storage (*currently, **only AWS S3 is supported***)
+- Run [deepface-finder](https://github.com/deniskrumko/deepface-finder) as a web server. Read "How to run service" section
+- Upload 1 to 5 files (*e.g. your selfies*) and instantly find your photos 👌
 
 ![preview](https://github.com/deniskrumko/deepface-finder/blob/main/src/static/images/ui-results.jpg?raw=true)
 
@@ -157,7 +166,9 @@ docker build -t deepface-finder:facenet-yolov8 . \
 
 # CUDA support
 
-There is a separate [Docker image](./Dockerfile.cuda) `deniskrumko/deepface-finder-cuda:latest` that uses CUDA versions of Torch and TorchVision.
+There is a separate [Dockerfile](./Dockerfile.cuda) that uses CUDA versions of Torch and TorchVision.
+
+*Currently there is no CUDA image in DockerHub due to Github Actions CPU/RAM limitations. Best way to use CUDA image is to clone this repository and build own image. Sorry for inconveniences...*
 
 # Credits
 
